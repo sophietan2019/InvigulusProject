@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="InvigulusDBModelStoreContainer" CdmEntityContainer="InvigulusDBEntities">
+    <EntitySetMapping Name="Exams">
+      <EntityTypeMapping TypeName="InvigulusDBModel.Exam">
+        <MappingFragment StoreEntitySet="Exam">
+          <ScalarProperty Name="ExamID" ColumnName="ExamID" />
+          <ScalarProperty Name="ExaminerID" ColumnName="ExaminerID" />
+          <ScalarProperty Name="ExamMaxDuration" ColumnName="ExamMaxDuration" />
+          <ScalarProperty Name="MaxAllowedAttemptsPerPerson" ColumnName="MaxAllowedAttemptsPerPerson" />
+          <ScalarProperty Name="ExamStartDate" ColumnName="ExamStartDate" />
+          <ScalarProperty Name="ExamStartTime" ColumnName="ExamStartTime" />
+          <ScalarProperty Name="ExamEndDate" ColumnName="ExamEndDate" />
+          <ScalarProperty Name="ExamEndTime" ColumnName="ExamEndTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ExamAdministrators">
+      <EntityTypeMapping TypeName="InvigulusDBModel.ExamAdministrator">
+        <MappingFragment StoreEntitySet="ExamAdministrator">
+          <ScalarProperty Name="ExaminerID" ColumnName="ExaminerID" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="ExaminerEmail" ColumnName="ExaminerEmail" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Examinees">
+      <EntityTypeMapping TypeName="InvigulusDBModel.Examinee">
+        <MappingFragment StoreEntitySet="Examinee">
+          <ScalarProperty Name="ExamineeID" ColumnName="ExamineeID" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="ExamineeEmail" ColumnName="ExamineeEmail" />
+          <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Province" ColumnName="Province" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+          <ScalarProperty Name="PhotoURL" ColumnName="PhotoURL" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ExamTakens">
+      <EntityTypeMapping TypeName="InvigulusDBModel.ExamTaken">
+        <MappingFragment StoreEntitySet="ExamTaken">
+          <ScalarProperty Name="ExamID" ColumnName="ExamID" />
+          <ScalarProperty Name="ExamineeID" ColumnName="ExamineeID" />
+          <ScalarProperty Name="RecordingID" ColumnName="RecordingID" />
+          <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+          <ScalarProperty Name="SubmissionTime" ColumnName="SubmissionTime" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="ConfidenceScore" ColumnName="ConfidenceScore" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

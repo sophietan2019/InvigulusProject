@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="InvigulusDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Exam">
+    <Key>
+      <PropertyRef Name="ExamID" />
+    </Key>
+    <Property Name="ExamID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ExaminerID" Type="Int32" Nullable="false" />
+    <Property Name="ExamMaxDuration" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="MaxAllowedAttemptsPerPerson" Type="Int32" Nullable="false" />
+    <Property Name="ExamStartDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ExamStartTime" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="ExamEndDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ExamEndTime" Type="Time" Nullable="false" Precision="7" />
+    <NavigationProperty Name="ExamAdministrator" Relationship="Self.FK__Exam__ExaminerID__267ABA7A" FromRole="Exam" ToRole="ExamAdministrator" />
+    <NavigationProperty Name="ExamTakens" Relationship="Self.FK__ExamTaken__ExamI__33D4B598" FromRole="Exam" ToRole="ExamTaken" />
+  </EntityType>
+  <EntityType Name="ExamAdministrator">
+    <Key>
+      <PropertyRef Name="ExaminerID" />
+    </Key>
+    <Property Name="ExaminerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ExaminerEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Exams" Relationship="Self.FK__Exam__ExaminerID__267ABA7A" FromRole="ExamAdministrator" ToRole="Exam" />
+  </EntityType>
+  <EntityType Name="Examinee">
+    <Key>
+      <PropertyRef Name="ExamineeID" />
+    </Key>
+    <Property Name="ExamineeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ExamineeEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="StreetAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Province" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PostalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PhotoURL" Type="String" MaxLength="1500" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="ExamTakens" Relationship="Self.FK__ExamTaken__Exami__34C8D9D1" FromRole="Examinee" ToRole="ExamTaken" />
+  </EntityType>
+  <EntityType Name="ExamTaken">
+    <Key>
+      <PropertyRef Name="ExamID" />
+      <PropertyRef Name="ExamineeID" />
+    </Key>
+    <Property Name="ExamID" Type="Int32" Nullable="false" />
+    <Property Name="ExamineeID" Type="Int32" Nullable="false" />
+    <Property Name="RecordingID" Type="Int32" Nullable="false" />
+    <Property Name="LocationID" Type="Int32" Nullable="false" />
+    <Property Name="SubmissionTime" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Score" Type="Double" Nullable="false" />
+    <Property Name="ConfidenceScore" Type="Double" Nullable="false" />
+    <NavigationProperty Name="Exam" Relationship="Self.FK__ExamTaken__ExamI__33D4B598" FromRole="ExamTaken" ToRole="Exam" />
+    <NavigationProperty Name="Examinee" Relationship="Self.FK__ExamTaken__Exami__34C8D9D1" FromRole="ExamTaken" ToRole="Examinee" />
+  </EntityType>
+  <Association Name="FK__Exam__ExaminerID__267ABA7A">
+    <End Role="ExamAdministrator" Type="Self.ExamAdministrator" Multiplicity="1" />
+    <End Role="Exam" Type="Self.Exam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ExamAdministrator">
+        <PropertyRef Name="ExaminerID" />
+      </Principal>
+      <Dependent Role="Exam">
+        <PropertyRef Name="ExaminerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ExamTaken__ExamI__33D4B598">
+    <End Role="Exam" Type="Self.Exam" Multiplicity="1" />
+    <End Role="ExamTaken" Type="Self.ExamTaken" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Exam">
+        <PropertyRef Name="ExamID" />
+      </Principal>
+      <Dependent Role="ExamTaken">
+        <PropertyRef Name="ExamID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ExamTaken__Exami__34C8D9D1">
+    <End Role="Examinee" Type="Self.Examinee" Multiplicity="1" />
+    <End Role="ExamTaken" Type="Self.ExamTaken" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Examinee">
+        <PropertyRef Name="ExamineeID" />
+      </Principal>
+      <Dependent Role="ExamTaken">
+        <PropertyRef Name="ExamineeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="InvigulusDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Exams" EntityType="Self.Exam" />
+    <EntitySet Name="ExamAdministrators" EntityType="Self.ExamAdministrator" />
+    <EntitySet Name="Examinees" EntityType="Self.Examinee" />
+    <EntitySet Name="ExamTakens" EntityType="Self.ExamTaken" />
+    <AssociationSet Name="FK__Exam__ExaminerID__267ABA7A" Association="Self.FK__Exam__ExaminerID__267ABA7A">
+      <End Role="ExamAdministrator" EntitySet="ExamAdministrators" />
+      <End Role="Exam" EntitySet="Exams" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ExamTaken__ExamI__33D4B598" Association="Self.FK__ExamTaken__ExamI__33D4B598">
+      <End Role="Exam" EntitySet="Exams" />
+      <End Role="ExamTaken" EntitySet="ExamTakens" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ExamTaken__Exami__34C8D9D1" Association="Self.FK__ExamTaken__Exami__34C8D9D1">
+      <End Role="Examinee" EntitySet="Examinees" />
+      <End Role="ExamTaken" EntitySet="ExamTakens" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

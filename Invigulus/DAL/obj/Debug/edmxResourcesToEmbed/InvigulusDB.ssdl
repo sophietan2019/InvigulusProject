@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="InvigulusDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Exam">
+    <Key>
+      <PropertyRef Name="ExamID" />
+    </Key>
+    <Property Name="ExamID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ExaminerID" Type="int" Nullable="false" />
+    <Property Name="ExamMaxDuration" Type="time" Precision="7" Nullable="false" />
+    <Property Name="MaxAllowedAttemptsPerPerson" Type="int" Nullable="false" />
+    <Property Name="ExamStartDate" Type="date" Nullable="false" />
+    <Property Name="ExamStartTime" Type="time" Precision="7" Nullable="false" />
+    <Property Name="ExamEndDate" Type="date" Nullable="false" />
+    <Property Name="ExamEndTime" Type="time" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ExamAdministrator">
+    <Key>
+      <PropertyRef Name="ExaminerID" />
+    </Key>
+    <Property Name="ExaminerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ExaminerEmail" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Examinee">
+    <Key>
+      <PropertyRef Name="ExamineeID" />
+    </Key>
+    <Property Name="ExamineeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ExamineeEmail" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="StreetAddress" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Province" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="PostalCode" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="PhotoURL" Type="varchar" MaxLength="1500" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ExamTaken">
+    <Key>
+      <PropertyRef Name="ExamID" />
+      <PropertyRef Name="ExamineeID" />
+    </Key>
+    <Property Name="ExamID" Type="int" Nullable="false" />
+    <Property Name="ExamineeID" Type="int" Nullable="false" />
+    <Property Name="RecordingID" Type="int" Nullable="false" />
+    <Property Name="LocationID" Type="int" Nullable="false" />
+    <Property Name="SubmissionTime" Type="smalldatetime" Nullable="false" />
+    <Property Name="Score" Type="float" Nullable="false" />
+    <Property Name="ConfidenceScore" Type="float" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Exam__ExaminerID__267ABA7A">
+    <End Role="ExamAdministrator" Type="Self.ExamAdministrator" Multiplicity="1" />
+    <End Role="Exam" Type="Self.Exam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ExamAdministrator">
+        <PropertyRef Name="ExaminerID" />
+      </Principal>
+      <Dependent Role="Exam">
+        <PropertyRef Name="ExaminerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ExamTaken__ExamI__33D4B598">
+    <End Role="Exam" Type="Self.Exam" Multiplicity="1" />
+    <End Role="ExamTaken" Type="Self.ExamTaken" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Exam">
+        <PropertyRef Name="ExamID" />
+      </Principal>
+      <Dependent Role="ExamTaken">
+        <PropertyRef Name="ExamID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ExamTaken__Exami__34C8D9D1">
+    <End Role="Examinee" Type="Self.Examinee" Multiplicity="1" />
+    <End Role="ExamTaken" Type="Self.ExamTaken" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Examinee">
+        <PropertyRef Name="ExamineeID" />
+      </Principal>
+      <Dependent Role="ExamTaken">
+        <PropertyRef Name="ExamineeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="InvigulusDBModelStoreContainer">
+    <EntitySet Name="Exam" EntityType="Self.Exam" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExamAdministrator" EntityType="Self.ExamAdministrator" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Examinee" EntityType="Self.Examinee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExamTaken" EntityType="Self.ExamTaken" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Exam__ExaminerID__267ABA7A" Association="Self.FK__Exam__ExaminerID__267ABA7A">
+      <End Role="ExamAdministrator" EntitySet="ExamAdministrator" />
+      <End Role="Exam" EntitySet="Exam" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ExamTaken__ExamI__33D4B598" Association="Self.FK__ExamTaken__ExamI__33D4B598">
+      <End Role="Exam" EntitySet="Exam" />
+      <End Role="ExamTaken" EntitySet="ExamTaken" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ExamTaken__Exami__34C8D9D1" Association="Self.FK__ExamTaken__Exami__34C8D9D1">
+      <End Role="Examinee" EntitySet="Examinee" />
+      <End Role="ExamTaken" EntitySet="ExamTaken" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
